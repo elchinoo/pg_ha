@@ -71,4 +71,4 @@ systemctl status etcd
 # 
 ```
 
-[Back to Patroni index](../)
+[Back to Patroni index](/patroni)
