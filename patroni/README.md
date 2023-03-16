@@ -28,4 +28,5 @@ This tutorial will be divided into below steps:
 ```
 
 [1] https://github.com/zalando/patroni
+
 [2] https://docs.percona.com/postgresql/15/index.html
