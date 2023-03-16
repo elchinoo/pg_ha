@@ -105,4 +105,4 @@ I like to centralize all configuration files in the same folder to make my life 
 sudo mkdir -p /pg_ha/{config,data/{etcd,postgres/main}}
 ```
 
-[Back to Patroni index](/patroni)
+[<<- Back to Patroni index](/patroni)
