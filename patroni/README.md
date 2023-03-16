@@ -5,16 +5,16 @@ According to its [Github repo[1]](https://github.com/zalando/patroni) Patroni is
 Here we'll use Ubuntu 22 and the PostgreSQL 15 provided by Percona for simplicity. We can find the full documentation in their [website here[2]](https://docs.percona.com/postgresql/15/index.html) including instructions to install in other Linux distros like RedHat.
 
 This tutorial will be divided into below steps:
- - [Initial node setup and install the Repo](initial_setup.md)
- - [Configure ETCD](etcd.md)
- - [Configure Patroni and PostgreSQL](patroni.md)
+ - [x] [Initial node setup and install the Repo](initial_setup.md)
+ - [x] [Configure ETCD](etcd.md)
+ - [ ] [Configure Patroni and PostgreSQL](patroni.md)
  - Configure connection pooler
-    - [pgbouncer](pgbouncer.md)
-    - [pgpool](pgpool.md)
-    - [pgagroal](pgagroal.md)
- - [Configure HAProxy](haproxy.md)
- - [Configure pgBackRest](pgbackrest.md)
- - [Creating a Standby Cluster](standby.md)
+    - [ ] [pgbouncer](pgbouncer.md)
+    - [ ] [pgpool](pgpool.md)
+    - [ ] [pgagroal](pgagroal.md)
+ - [ ] [Configure HAProxy](haproxy.md)
+ - [ ] [Configure pgBackRest](pgbackrest.md)
+ - [ ] [Creating a Standby Cluster](standby.md)
 
 
 
