@@ -2,11 +2,11 @@
 
 For this tutorial I'll create a 3 nodes cluster with below details:
  - node-1 
-    - IP: 10.0.0.1
+    - IP: 10.0.100.1
  - node-2 
-    - IP: 10.0.0.2
+    - IP: 10.0.100.2
  - node-3 
-    - IP: 10.0.0.3
+    - IP: 10.0.100.3
 
 We need to execute the instructions here in all 3 nodes, changing the values when needed.
 
