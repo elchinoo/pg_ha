@@ -57,6 +57,12 @@ apt-get update
 apt-get upgrade -y
 ```
 
+I like to install some auxiliary packages. They are not needed but helpful when working with a remote server:
+
+```bash
+apt install -y vim wget screen
+```
+
 We now install the needed packages:
 
 ```bash

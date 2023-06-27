@@ -12,7 +12,7 @@ This tutorial will be divided into below steps:
     - [ ] [pgbouncer](pgbouncer.md)
     - [ ] [pgpool](pgpool.md)
     - [ ] [pgagroal](pgagroal.md)
- - [ ] [Configure HAProxy](haproxy.md)
+ - [x] [Configure HAProxy](haproxy.md)
  - [ ] [Configure pgBackRest](pgbackrest.md)
  - [ ] [Creating a Standby Cluster](standby.md)
 
