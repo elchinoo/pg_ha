@@ -1,4 +1,4 @@
-# Patroni: Configuring ETCD
+# Patroni: Configuring Patroni and PostgreSQL
 
 It's now time to configure the Patroni service.
 
