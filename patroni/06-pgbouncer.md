@@ -1,0 +1,3 @@
+# Patroni: Configuring pgbouncer
+
+## TODO
