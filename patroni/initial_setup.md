@@ -27,19 +27,19 @@ echo "
 # Check with hostnamectl
 hostnamectl
 
-We should see something like:
-node-1:~$ hostnamectl
- Static hostname: node-1
-       Icon name: computer-vm
-         Chassis: vm
-      Machine ID: 5afb793f085945ec9e61ae1c7a2cc3fe
-         Boot ID: 22ee7e8590d87a308ce2c1fe32b954bc
-  Virtualization: xen
-Operating System: Ubuntu 22.04.2 LTS              
-          Kernel: Linux 5.15.0-1028-aws
-    Architecture: x86-64
- Hardware Vendor: Xen
-  Hardware Model: HVM domU
+# We should see something like:
+# node-1:~$ hostnamectl
+#  Static hostname: node-1
+#        Icon name: computer-vm
+#          Chassis: vm
+#       Machine ID: 5afb793f085945ec9e61ae1c7a2cc3fe
+#          Boot ID: 22ee7e8590d87a308ce2c1fe32b954bc
+#   Virtualization: xen
+# Operating System: Ubuntu 22.04.2 LTS              
+#           Kernel: Linux 5.15.0-1028-aws
+#     Architecture: x86-64
+#  Hardware Vendor: Xen
+#   Hardware Model: HVM domU
 ```
 
 Next we download and install the Percona's repo:
@@ -67,12 +67,10 @@ apt install -y percona-ppg-server-15
 apt install -y python3-pip python3-dev binutils
 
 # We install the other packages like patroni, etcd, etc
-apt install -y percona-patroni \
-    etcd-server etcd-client \
-    percona-pgbouncer \
-    pgpool2 \
-    percona-haproxy \
-    percona-pgbackrest 
+apt install -y \
+   percona-patroni \
+   etcd etcd-server etcd-client \
+   percona-pgbackrest 
 ```
 
 I'll stop and disable all services for now as I don't want SystemD messing up while configuring the instance:
