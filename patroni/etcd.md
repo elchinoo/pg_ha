@@ -61,7 +61,7 @@ sudo systemctl enable --now etcd
 # Then we check if running
 systemctl status etcd
 
-# We should see something like
+# We should see something like:
 # node1:~$ systemctl status etcd
 # ● etcd.service - etcd - highly-available key value store
 #      Loaded: loaded (/etc/systemd/system/etcd.service; enabled; vendor preset: enabled)
@@ -106,7 +106,7 @@ Now we need to let the node-1 knows we are adding a new member to the cluster. W
 # etcdctl member add <NODE_NAME> http://<NODE_IP>:2380
 etcdctl member add node-2 http://10.0.100.2:2380
 
-# We should see something like
+# We should see something like:
 # Added member named node-2 with ID e9778bdd4c014314 to cluster
 # 
 # ETCD_NAME="node-2"
@@ -148,7 +148,7 @@ sudo systemctl enable --now etcd
 # Then we check if running
 systemctl status etcd
 
-# We should see something like
+# We should see something like:
 # root@node-2:~# systemctl status etcd
 # ● etcd.service - etcd - highly-available key value store
 #      Loaded: loaded (/etc/systemd/system/etcd.service; enabled; vendor preset: enabled)

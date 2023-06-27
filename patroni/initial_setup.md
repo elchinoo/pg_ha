@@ -88,19 +88,17 @@ I like to centralize all configuration files in the same folder to make my life 
 #   /pg_ha
 #       |- config
 #           |- etcd.conf
-#           |- patroni.conf
-#           |- pgbackrest.conf
-#           |- pgbouncer.conf
-#           |- bouncer_users.conf
-#           |- pgpool.conf
+#           |- patroni.yaml
 #           |- haproxy.conf
 #           |- pgpass
+#           |- pgbackrest.conf
+#           |- <...>
 #       |- data
 #           |- etcd
 #           |- postgres
-#               |- main
+#               |- 15
 #####
-sudo mkdir -p /pg_ha/{config,data/{etcd,postgres/main}}
+sudo mkdir -p /pg_ha/{config,data/{etcd,postgres/15}}
 ```
 
 [<<- Back to Patroni index](/patroni)

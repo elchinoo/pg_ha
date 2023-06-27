@@ -7,7 +7,7 @@ Here we'll use Ubuntu 22 and the PostgreSQL 15 provided by Percona for simplicit
 This tutorial will be divided into below steps:
  - [x] [Initial node setup and install the Repo](initial_setup.md)
  - [x] [Configure ETCD](etcd.md)
- - [ ] [Configure Patroni and PostgreSQL](patroni.md)
+ - [x] [Configure Patroni and PostgreSQL](patroni.md)
  - Configure connection pooler
     - [ ] [pgbouncer](pgbouncer.md)
     - [ ] [pgpool](pgpool.md)
