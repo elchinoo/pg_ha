@@ -1,0 +1,51 @@
+patroni_namespace: pg_ha
+patroni_scope: cluster_1
+patroni_rest_api_listen: "0.0.0.0"
+patroni_dcs_ttl: 30
+patroni_dcs_loop_wait: 10
+patroni_dcs_retry_timeout: 10
+patroni_dcs_max_lag_failover: 1048576
+patroni_dcs_slot_name: percona_cluster_1
+patroni_dcs_slot_type: physical
+
+pg_use_pg_rewind: "true"
+pg_use_slots: "true"
+
+pg_listen_addr_cfg: "*"
+pg_port: 5432
+pg_max_connections: 100
+pg_shared_buffers: 512MB
+pg_work_mem: 4MB
+pg_maintenance_work_mem: 64MB
+pg_wal_level: logical
+pg_hot_standby: "on"
+pg_synchronous_commit: "on"
+pg_wal_compression: "on"
+pg_checkpoint_timeout: 30
+pg_checkpoint_completion_target: 0.9
+pg_min_wal_size: 80M
+pg_max_wal_size: 1GB
+
+pg_wal_keep_size: 4096
+pg_max_wal_senders: 5
+pg_max_replication_slots: 10
+pg_wal_log_hints: "on"
+pg_archive_mode: ""
+pg_archive_library: ""
+pg_archive_command: ""
+pg_archive_timeout: 1800s
+pg_logging_collector: 'on'
+
+pg_pass_file: "{{ config_dir }}/.pgpass"
+pg_cluster_name: cluster_1
+pg_repl_username: replicator
+pg_repl_password: R3pl1c4t0r
+pg_super_username: postgres
+pg_super_password: PostP4ss
+pg_admin_username: admin
+pg_admin_password: Pgadm1n
+
+pg_listen_addr: "0.0.0.0"
+pg_listen_port: 5432
+
+etcd_token: "PostgreSQL HA By Percona"

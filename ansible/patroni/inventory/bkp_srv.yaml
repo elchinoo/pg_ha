@@ -1,0 +1,5 @@
+bkp_srv:
+  hosts:
+    node-bkp:
+      ansible_host: 34.207.246.214
+      ansible_user: "{{ username }}"

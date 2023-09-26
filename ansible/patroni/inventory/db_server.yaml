@@ -1,0 +1,11 @@
+db_server:
+  hosts:
+    node-1:
+      ansible_host: 34.235.168.21
+      ansible_user: "{{ username }}"
+    node-2:
+      ansible_host: 35.172.115.124
+      ansible_user: "{{ username }}"
+    node-3:
+      ansible_host: 54.81.49.105
+      ansible_user: "{{ username }}"

@@ -1,0 +1,26 @@
+username: ubuntu
+pg_version: 15
+pg_user: postgres
+pg_group: postgres
+
+##### Setup folders
+# We will use the following tree to store our setup:
+#   /pg_ha
+#       |- config
+#           |- etcd.conf
+#           |- patroni.yaml
+#           |- haproxy.conf
+#           |- pgpass
+#           |- pgbackrest.conf
+#           |- <...>
+#       |- data
+#           |- etcd
+#           |- postgres
+#               |- 15
+#
+base_dir: /pg_ha
+config_dir: "{{ base_dir }}/config"
+base_data_dir: "{{ base_dir }}/data"
+etcd_data_dir: "{{ base_data_dir }}/etcd"
+pg_data_dir: "{{ base_data_dir }}/postgres/{{ pg_version }}"
+pg_bin_dir: /usr/lib/postgresql/15/bin

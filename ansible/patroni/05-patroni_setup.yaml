@@ -1,0 +1,53 @@
+---
+- hosts: all
+
+- hosts: "{{ hostvars[groups['db_server'][0]]['inventory_hostname'] }}"
+  gather_facts: no
+  tasks:
+    - name: Copy the Patroni config file to host {{ inventory_hostname }}
+      become: true
+      ansible.builtin.template:
+        src: templates/patroni.yaml.tf
+        dest: "{{ config_dir }}/patroni.yaml"
+        owner: root
+        group: root
+        mode: "0644"
+
+    - name: Enable and starts the Patroni service on host {{ inventory_hostname }} making sure it's not masked
+      become: true
+      ansible.builtin.systemd:
+        name: patroni
+        state: started
+        enabled: true
+        masked: no
+
+- hosts: 
+    - "{{ hostvars[groups['db_server'][1]]['inventory_hostname'] }}"
+    - "{{ hostvars[groups['db_server'][2]]['inventory_hostname'] }}"
+  gather_facts: no
+  tasks:
+    - name: Copy the Patroni config file to host {{ inventory_hostname }}
+      become: true
+      ansible.builtin.template:
+        src: templates/patroni.yaml.tf
+        dest: "{{ config_dir }}/patroni.yaml"
+        owner: root
+        group: root
+        mode: "0644"
+
+    - name: Make sure the Postgres data dir has the proper ownership, group and permissions
+      become: true
+      ansible.builtin.file:
+        path: "{{ pg_data_dir }}"
+        owner: "{{ pg_user }}"
+        group: "{{ pg_group }}"
+        state: directory
+        mode: '0740'
+
+    - name: Enable and starts the Patroni service on host {{ inventory_hostname }} making sure it's not masked
+      become: true
+      ansible.builtin.systemd:
+        name: patroni
+        state: started
+        enabled: true
+        masked: no
