@@ -18,4 +18,17 @@ Before using this recipe you need to change the configuration in both the `inven
    - __bkp_server.yaml__: Contains the list of backup server variables and configurations
    - __proxy.yaml__: Contains the list of proxy server variables and configurations
 
- Please fee free to contribute with PR, feature requests, and bug reports. All contributions are very welcomed!
+
+## How to run
+
+You can run using the script `instal.sh` which will run all the playbooks in the correct order or can run an individual playbook, for example: 
+
+``` bash
+ansible-playbook ./playbooks/12-etcd_add_node.yaml
+```
+
+which will check all the ETCD nodes and add the ones not in the cluster yet to the cluster.  
+
+## Contributions
+
+Please fee free to contribute with PR, feature requests, and bug reports. All contributions are very welcomed!
