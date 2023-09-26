@@ -1,0 +1,14 @@
+---
+- hosts: all
+
+- hosts: etcd_server
+  gather_facts: false
+  tasks:
+    - name: Make a copy of the Patroni service file
+      become: true
+      ansible.builtin.template:
+        src: ../templates/patroni.service.tf
+        dest: /etc/systemd/system/patroni.service
+        owner: root
+        group: root
+        mode: "0644"

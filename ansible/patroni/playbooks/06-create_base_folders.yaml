@@ -1,0 +1,13 @@
+---
+- hosts: all
+  gather_facts: false
+  tasks:
+    - name: Create CONFIG folder
+      become: true
+      file:
+        path: "{{ config_dir }}"
+        state: directory
+        owner: "{{ pg_os_user }}"
+        group: "{{ pg_os_user }}"
+        mode: 0770
+        recurse: yes

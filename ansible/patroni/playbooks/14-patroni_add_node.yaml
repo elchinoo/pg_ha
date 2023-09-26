@@ -1,0 +1,33 @@
+---
+- hosts: all
+
+- hosts: db_server
+  gather_facts: false
+  serial: 1
+  tasks:
+    - name: Register, configure, and start ETCD nodes
+      block: 
+      - name: Copy the Patroni config file to host {{ inventory_hostname }}
+        ansible.builtin.template:
+          src: ../templates/patroni.yaml.tf
+          dest: "{{ config_dir }}/patroni.yaml"
+          owner: root
+          group: root
+          mode: "0644"
+
+      - name: Make sure the Postgres data dir has the proper ownership, group and permissions
+        ansible.builtin.file:
+          path: "{{ pg_data_dir }}"
+          owner: "{{ pg_os_user }}"
+          group: "{{ pg_os_group }}"
+          state: directory
+          mode: "0740"
+
+      - name: Enable and starts the Patroni service on host {{ inventory_hostname }} making sure it's not masked
+        ansible.builtin.systemd:
+          name: patroni
+          state: started
+          enabled: true
+          masked: no
+      when: hostvars[groups['db_server'][0]]['inventory_hostname'] != inventory_hostname
+      become: true

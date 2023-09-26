@@ -1,0 +1,17 @@
+---
+- hosts: all
+
+- hosts: all
+  gather_facts: no
+  tasks:
+    - name: Install Auxiliary apps
+      become: true
+      ansible.builtin.package:
+        name:
+          - vim
+          - wget
+          - screen
+          - python3-pip
+          - python3-dev
+          - binutils
+        state: latest

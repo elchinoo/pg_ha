@@ -22,8 +22,6 @@ bootstrap:
             use_pg_rewind: {{ pg_use_pg_rewind }}
             use_slots: {{ pg_use_slots }}
             parameters:
-                listen_addresses: "{{ pg_listen_addr_cfg }}"
-                port: {{ pg_listen_port }}
                 max_connections: {{ pg_max_connections }}
                 shared_buffers: {{ pg_shared_buffers }}
                 work_mem: {{ pg_work_mem }}

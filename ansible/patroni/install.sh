@@ -1,41 +1,13 @@
 #!/bin/bash
+# set -e
 
-ansible-playbook -l db_server ./01-hostname.yaml
-RET=$?
-if [ $RET -ne 0 ] 
-then  
-  echo "Error while executing 01-hostname.yaml" >&2
-  return $RET
-fi
-
-ansible-playbook -l db_server ./02-percona_add_repo.yaml
-RET=$?
-if [ $RET -ne 0 ] 
-then  
-  echo "Error while executing 02-percona_add_repo.yaml" >&2
-  return $RET
-fi
-
-ansible-playbook -l db_server ./03-packages_install.yaml
-RET=$?
-if [ $RET -ne 0 ] 
-then  
-  echo "Error while executing 03-packages_install.yaml" >&2
-  return $RET
-fi
-
-ansible-playbook -l db_server ./04-etcd_setup.yaml
-RET=$?
-if [ $RET -ne 0 ] 
-then  
-  echo "Error while executing 04-etcd_setup.yaml" >&2
-  return $RET
-fi
-
-ansible-playbook -l db_server ./05-patroni_setup.yaml
-RET=$?
-if [ $RET -ne 0 ] 
-then  
-  echo "Error while executing 05-patroni_setup.yaml" >&2
-  return $RET
-fi
+for i in `ls ./playbooks/ --ignore='group_vars'` 
+do 
+  ansible-playbook ./playbooks/$i; 
+  RET=$?
+  if [ $RET -ne 0 ] 
+  then  
+    echo "Error while executing file ${i} \n" >&2
+    exit $RET
+  fi
+done

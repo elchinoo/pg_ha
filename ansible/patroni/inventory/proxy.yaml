@@ -1,5 +1,5 @@
-proxy:
-  hosts:
-    node-prx:
-      ansible_host: 34.201.167.49
-      ansible_user: "{{ username }}"
+# proxy:
+#   hosts:
+#     node-prx:
+#       ansible_host: 34.201.167.49
+#       ansible_user: "{{ ssh_username }}"

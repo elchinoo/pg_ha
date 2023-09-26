@@ -14,8 +14,8 @@ After=syslog.target network.target
 [Service]
 Type=simple
 
-User={{ pg_user }}
-Group={{ pg_user }}
+User={{ pg_os_user }}
+Group={{ pg_os_group }}
 
 # Read in configuration file if it exists, otherwise proceed
 EnvironmentFile=-{{ config_dir }}/patroni_env.conf

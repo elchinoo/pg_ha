@@ -1,0 +1,20 @@
+---
+- hosts: 
+    etcd_server
+  gather_facts: false
+  tasks:
+    - name: Install ETCD components 
+      become: true
+      ansible.builtin.package:
+        name:
+          - etcd
+          - etcd-server
+          - etcd-client
+        state: latest
+
+    - name: Disable ETCD service and stop it
+      become: true
+      ansible.builtin.systemd:
+        name: etcd
+        state: stopped
+        enabled: false

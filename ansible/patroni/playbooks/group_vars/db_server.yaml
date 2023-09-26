@@ -11,8 +11,6 @@ patroni_dcs_slot_type: physical
 pg_use_pg_rewind: "true"
 pg_use_slots: "true"
 
-pg_listen_addr_cfg: "*"
-pg_port: 5432
 pg_max_connections: 100
 pg_shared_buffers: 512MB
 pg_work_mem: 4MB
@@ -47,5 +45,3 @@ pg_admin_password: Pgadm1n
 
 pg_listen_addr: "0.0.0.0"
 pg_listen_port: 5432
-
-etcd_token: "PostgreSQL HA By Percona"

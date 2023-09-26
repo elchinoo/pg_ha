@@ -1,0 +1,38 @@
+---
+- hosts: all
+
+- hosts: etcd_server
+  gather_facts: false
+  serial: 1
+  tasks:
+    - name: Register, configure, and start ETCD nodes
+      block: 
+      # - name: Pause for 10 seconds to allow etcd cluster to fully come up before we add a new member
+      #   pause:
+      #     seconds: 10
+
+      - name: Check etcd cluster health before we add a new member
+        command: "sudo etcdctl cluster-health"
+        delegate_to: "{{ ssh_username }}@{{ hostvars[groups['etcd_server'][0]]['ansible_host'] }}"
+
+      - name: Register ETCD of the host {{ inventory_hostname }}
+        shell: sudo etcdctl member add {{ inventory_hostname }} http://{{ ansible_default_ipv4.address }}:2380
+        register: etcd_register
+        delegate_to: "{{ ssh_username }}@{{ hostvars[groups['etcd_server'][0]]['ansible_host'] }}"
+
+      - name: Copy the ETCD config file to host {{ inventory_hostname }}
+        ansible.builtin.template:
+          src: ../templates/etcd_member.conf.tf
+          dest: "{{ config_dir }}/etcd"
+          owner: root
+          group: root
+          mode: "0644"
+
+      - name: Enable and starts the ETCD service on host {{ inventory_hostname }} making sure it's not masked
+        ansible.builtin.systemd:
+          name: etcd
+          state: started
+          enabled: true
+          masked: no
+      when: hostvars[groups['etcd_server'][0]]['inventory_hostname'] != inventory_hostname
+      become: true

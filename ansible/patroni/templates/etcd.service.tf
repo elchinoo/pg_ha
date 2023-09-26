@@ -11,7 +11,7 @@ Environment=ETCD_NAME=%H
 Environment=ETCD_DATA_DIR={{ etcd_data_dir }}
 EnvironmentFile=-{{ config_dir }}/%p
 Type=notify
-User={{ pg_user }}
+User={{ pg_os_user }}
 PermissionsStartOnly=true
 #ExecStart=/bin/sh -c "GOMAXPROCS=$(nproc) /usr/bin/etcd $DAEMON_ARGS"
 ExecStart=/usr/bin/etcd $DAEMON_ARGS

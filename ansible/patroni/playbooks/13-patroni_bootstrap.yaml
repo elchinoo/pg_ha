@@ -1,0 +1,22 @@
+---
+- hosts: all
+
+- hosts: "{{ hostvars[groups['db_server'][0]]['inventory_hostname'] }}"
+  gather_facts: false
+  tasks:
+    - name: Copy the Patroni config file to host {{ inventory_hostname }}
+      become: true
+      ansible.builtin.template:
+        src: ../templates/patroni.yaml.tf
+        dest: "{{ config_dir }}/patroni.yaml"
+        owner: root
+        group: root
+        mode: "0644"
+
+    - name: Enable and starts the Patroni service on host {{ inventory_hostname }} making sure it's not masked
+      become: true
+      ansible.builtin.systemd:
+        name: patroni
+        state: started
+        enabled: true
+        masked: no

@@ -1,0 +1,22 @@
+---
+- hosts: all
+
+- hosts: "{{ hostvars[groups['etcd_server'][0]]['inventory_hostname'] }}"
+  gather_facts: false
+  tasks:
+    - name: Copy the ETCD config file to host {{ inventory_hostname }}
+      become: true
+      ansible.builtin.template:
+        src: ../templates/etcd_bootstrap.conf.tf
+        dest: "{{ config_dir }}/etcd"
+        owner: root
+        group: root
+        mode: "0644"
+
+    - name: Enable and starts the ETCD service on host {{ inventory_hostname }} making sure it's not masked
+      become: true
+      ansible.builtin.systemd:
+        name: etcd
+        state: started
+        enabled: true
+        masked: no

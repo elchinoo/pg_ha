@@ -1,0 +1,14 @@
+---
+- hosts: all
+
+- hosts: etcd_server
+  gather_facts: false
+  tasks:
+    - name: Make a copy of the ETCD service file
+      become: true
+      ansible.builtin.template:
+        src: ../templates/etcd.service.tf
+        dest: /etc/systemd/system/etcd.service
+        owner: root
+        group: root
+        mode: "0644"

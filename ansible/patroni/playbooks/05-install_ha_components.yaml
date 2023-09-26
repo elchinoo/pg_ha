@@ -1,40 +1,15 @@
 ---
-- hosts: all
-
-- hosts: all
-  gather_facts: no
-  tasks:
-    - name: Install Auxiliary apps
-      become: true
-      ansible.builtin.package:
-        name:
-          - vim
-          - wget
-          - screen
-        state: latest
-
 - hosts: db_server
-  gather_facts: no
+  gather_facts: false
   tasks:
-    - name: Install Python Auxiliary packages and binutils
-      become: true
-      ansible.builtin.package:
-        name:
-          - python3-pip
-          - python3-dev
-          - binutils
-        state: latest
-
-    - name: Install PG HA components (PostgreSQL Server v-{{ pg_version }}, ETCD, Patroni, pgbackrest)
+    - name: Install PG HA components (PostgreSQL Server v-{{ pg_version }}, Patroni, pgbackrest)
       become: true
       ansible.builtin.package:
         name:
           - percona-postgresql-{{ pg_version }}
-          - etcd
-          - etcd-server
           - etcd-client
-          - percona-pgbackrest
           - percona-patroni
+          - percona-pgbackrest
         state: latest
 
     - name: Disable PostgreSQL service, stop it and ensure it is masked
@@ -52,13 +27,6 @@
         state: stopped
         enabled: false
         masked: yes
-
-    - name: Disable ETCD service and stop it
-      become: true
-      ansible.builtin.systemd:
-        name: etcd
-        state: stopped
-        enabled: false
 
     - name: Disable Patroni service and stop it
       become: true

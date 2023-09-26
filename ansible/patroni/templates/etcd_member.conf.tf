@@ -1,4 +1,4 @@
-# {{ etcd_register }}
+# {{ etcd_register.stdout }}
 ETCD_INITIAL_CLUSTER_TOKEN="{{ etcd_token }}"
 ETCD_INITIAL_ADVERTISE_PEER_URLS="http://{{ ansible_default_ipv4.address }}:2380"
 ETCD_DATA_DIR="{{ etcd_data_dir }}"

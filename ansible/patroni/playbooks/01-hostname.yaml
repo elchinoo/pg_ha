@@ -44,8 +44,8 @@
       pause:
         seconds: 10
 
-    - name: Validate ansible_fqdn == inventory_hostname
+    - name: Validate ansible_hostname == inventory_hostname
       tags:
         - validate
       assert:
-        that: ansible_fqdn == inventory_hostname
+        that: ansible_hostname == inventory_hostname

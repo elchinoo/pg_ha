@@ -1,7 +1,23 @@
-username: ubuntu
+##### Host configuration
+# They are here just to simplify the config process as they are in the same place
+host_db_node1: 54.196.92.49
+host_db_node2: 54.224.130.181
+host_db_node3: 35.173.223.193
+
+host_etcd_node1: '{{ host_db_node1 }}'
+host_etcd_node2: '{{ host_db_node2 }}'
+host_etcd_node3: '{{ host_db_node3 }}'
+
+host_bkp_node: 34.207.246.214
+
+# For now we'll use the same user for all nodes
+# TODO
+ssh_username: ubuntu
+
+######
 pg_version: 15
-pg_user: postgres
-pg_group: postgres
+pg_os_user: postgres
+pg_os_group: postgres
 
 ##### Setup folders
 # We will use the following tree to store our setup:
