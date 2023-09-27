@@ -7,7 +7,7 @@
     - name: Copy the Patroni config file to host {{ inventory_hostname }}
       become: true
       ansible.builtin.template:
-        src: ../templates/patroni.yaml.tf
+        src: ../templates/patroni.yaml.ts
         dest: "{{ config_dir }}/patroni.yaml"
         owner: root
         group: root

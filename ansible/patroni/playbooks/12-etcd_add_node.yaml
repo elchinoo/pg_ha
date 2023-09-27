@@ -22,7 +22,7 @@
 
       - name: Copy the ETCD config file to host {{ inventory_hostname }}
         ansible.builtin.template:
-          src: ../templates/etcd_member.conf.tf
+          src: ../templates/etcd_member.conf.ts
           dest: "{{ config_dir }}/etcd"
           owner: root
           group: root

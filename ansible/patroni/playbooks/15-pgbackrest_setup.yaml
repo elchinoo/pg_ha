@@ -1,0 +1,12 @@
+---
+- hosts: all
+
+- hosts: bkp_server
+  gather_facts: false
+  serial: 1
+  tasks:
+    - name: Install pgbackrest Server
+      become: true
+      ansible.builtin.package:
+        name: percona-pgbackrest
+        state: latest

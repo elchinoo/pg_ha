@@ -1,0 +1,5 @@
+bkp_server:
+  hosts:
+    node-bkp:
+      ansible_host: "{{ host_bkp_node }}"
+      ansible_user: "{{ ssh_username }}"
