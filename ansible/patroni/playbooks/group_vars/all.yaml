@@ -1,0 +1,42 @@
+##### Host configuration
+# They are here just to simplify the config process as they are in the same place
+host_db_node1: 10.0.10.100
+host_db_node2: 10.0.10.101
+host_db_node3: 10.0.10.102
+
+host_etcd_node1: '{{ host_db_node1 }}'
+host_etcd_node2: '{{ host_db_node2 }}'
+host_etcd_node3: '{{ host_db_node3 }}'
+
+host_bkp_node: 10.0.10.102
+
+# For now we'll use the same user for all nodes
+# TODO
+ssh_username: ubuntu
+
+######
+pg_version: 15
+pg_os_user: postgres
+pg_os_group: postgres
+
+##### Setup folders
+# We will use the following tree to store our setup:
+#   /pg_ha
+#       |- config
+#           |- etcd.conf
+#           |- patroni.yaml
+#           |- haproxy.conf
+#           |- pgpass
+#           |- pgbackrest.conf
+#           |- <...>
+#       |- data
+#           |- etcd
+#           |- postgres
+#               |- 15
+#
+base_dir: /pg_ha
+config_dir: "{{ base_dir }}/config"
+base_data_dir: "{{ base_dir }}/data"
+etcd_data_dir: "{{ base_data_dir }}/etcd"
+pg_data_dir: "{{ base_data_dir }}/postgres/{{ pg_version }}"
+pg_bin_dir: /usr/lib/postgresql/15/bin
