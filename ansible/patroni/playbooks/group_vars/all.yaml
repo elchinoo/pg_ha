@@ -8,7 +8,7 @@ host_etcd_node1: '{{ host_db_node1 }}'
 host_etcd_node2: '{{ host_db_node2 }}'
 host_etcd_node3: '{{ host_db_node3 }}'
 
-host_bkp_node: 10.0.10.102
+host_bkp_node: 34.204.99.59
 
 # For now we'll use the same user for all nodes
 # TODO

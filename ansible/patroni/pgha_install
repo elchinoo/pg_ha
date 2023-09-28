@@ -1,0 +1,113 @@
+#!/bin/bash
+# set -x
+
+unset -v GROUP
+unset -v IS_INSTALL
+
+############################################################
+# Help                                                     #
+############################################################
+Help() {
+  # Display Help
+  echo "PostgreSQL HA with Patroni and ETCD"
+  echo
+  echo "Syntax: $0 -h | -v | -i [-g '<group_name>']"
+  echo "options:"
+  echo "h     Print this Help."
+  echo "i     Install all the components in all server groups."
+  echo "g     Specify the server groups to install. More than one group can be especified at a time"
+  echo "        The available grups are:"
+  echo "         - db_server: Install the components in the database servers, including Patroni"
+  echo "         - etcd_server: Install the components in the ETCD servers"
+  echo "         - bkp_server: Install the components in the pgbackrest backup servers"
+  echo "         - proxy_server: Install the components in the proxy servers"
+  echo "        Example of usage of multiple groups: $0 -i -g 'db_server etcd_server'"
+  echo "        Note the values are enclosed by single quotes. Double quotes are also valid!"
+  echo ""
+  exit
+}
+
+HelpMin() {
+  # Display Help
+  echo "----------------------------------------------------------"
+  echo "PostgreSQL HA with Patroni and ETCD"
+  echo
+  echo "Syntax: $0 -h | -v | -i [-g '<group_name>']"
+  echo ""
+  exit
+}
+
+############################################################
+
+############################################################
+# Run the Ansible playbooks in the correct order           #
+############################################################
+Install() {
+  AEXEC="ansible-playbook"
+
+  if [[ ! -z $1 ]]; then
+    AEXEC+=" -l ${1}"
+  fi
+
+  for i in $(ls ./playbooks/ --ignore='group_vars'); do
+    ${AEXEC} ./playbooks/$i
+    RET=$?
+    if [ $RET -ne 0 ]; then
+      echo "Error while executing file ${i} \n" >&2
+      exit $RET
+    fi
+  done
+
+  exit
+}
+
+Version() {
+  echo "PostgreSQL HA with Patroni and ETCD v-0.1beta"
+  exit
+}
+
+############################################################
+# Process the input options. Add options as needed.        #
+############################################################
+# Get the options
+IS_GROUP=false
+GROUP=""
+IS_INSTALL=false
+
+options=':h(help):v(version):g:i'
+#options='h:v:g:i:'
+while getopts $options option; do
+  case "$option" in
+  h) # display Help
+    Help
+    ;;
+  v)
+    Version
+    ;;
+  g)
+    IS_GROUP=true
+    GROUP=$OPTARG
+    ;;
+  i)
+    IS_INSTALL=true
+    ;;
+  \?) # Invalid option
+    echo "Error: Invalid option"
+    echo ""
+    HelpMin
+    ;;
+  esac
+done
+
+if [[ "${IS_INSTALL}" = true ]]; then
+  if [[ "${IS_GROUP}" = true ]] && [ -z "$GROUP" ]; then
+    echo "Error: Group option without value" >&2
+    HelpMin
+  fi
+
+  # Run the install function
+  Install ${GROUP}
+else
+  echo 'Error: Missing -i option' >&2
+  HelpMin
+fi
