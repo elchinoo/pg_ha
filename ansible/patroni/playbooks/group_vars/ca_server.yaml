@@ -1,0 +1,3 @@
+##### CA params
+ca_secret_passphrase: "Percona HA Patroni"
+ca_common_name: "Percona HA Patroni Certificate Authority"

@@ -7,7 +7,7 @@
     - name: Make a copy of the ETCD service file
       become: true
       ansible.builtin.template:
-        src: ../templates/etcd.service.ts
+        src: ../templates/etcd.service.t2
         dest: /etc/systemd/system/etcd.service
         owner: root
         group: root

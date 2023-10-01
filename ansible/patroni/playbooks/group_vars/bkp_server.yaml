@@ -1,0 +1,15 @@
+backrest_port: 8432
+
+#
+repo1_path: "/pg_ha/pgbackrest"
+repo1_retention_archive_type: "full"
+repo1_retention_archive: 2
+repo1_retention_full: 4
+process_max_server: 4
+process_max_client: 4
+log_level_console: "info"
+log_level_file: "info"
+start_fast: "y"
+delta: "y"
+backup_standby: "y"
+tls_server_address: "*"

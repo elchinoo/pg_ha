@@ -49,7 +49,7 @@ Install() {
     AEXEC+=" -l ${1}"
   fi
 
-  for i in $(ls ./playbooks/ --ignore='group_vars'); do
+  for i in $(ls ./playbooks/ --ignore='00*' --ignore='group_vars'); do
     ${AEXEC} ./playbooks/$i
     RET=$?
     if [ $RET -ne 0 ]; then

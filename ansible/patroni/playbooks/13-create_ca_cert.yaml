@@ -1,0 +1,66 @@
+---
+- hosts: ca_server
+  tasks:
+    - name: Create CA key and certificate
+      block:
+      - name: Create CA private key with password protection
+        community.crypto.openssl_privatekey:
+          path: "{{ cert_dir }}/ca.key"
+          owner: "{{ pg_os_user }}"
+          group: "{{ pg_os_group }}"
+          passphrase: "{{ ca_secret_passphrase }}"
+          cipher: auto
+          size: 4096
+          mode: 0600
+          type: RSA
+          state: present
+
+      - name: Create certificate signing request (CSR) for CA certificate
+        community.crypto.openssl_csr_pipe:
+          privatekey_path: "{{ cert_dir }}/ca.key"
+          privatekey_passphrase: "{{ ca_secret_passphrase }}"
+          common_name: "{{ ca_common_name }}"
+          organization_name: "{{ company_name }}"
+          use_common_name_for_san: false  # since we do not specify SANs, don't use CN as a SAN
+          basic_constraints:
+            - 'CA:TRUE'
+          basic_constraints_critical: true
+          key_usage:
+            - keyCertSign
+          key_usage_critical: true
+        register: ca_csr
+
+      - name: Create self-signed CA certificate from CSR
+        community.crypto.x509_certificate:
+          path: "{{ cert_dir }}/ca.pem"
+          owner: "{{ pg_os_user }}"
+          group: "{{ pg_os_group }}"
+          csr_content: "{{ ca_csr.csr }}"
+          privatekey_path: "{{ cert_dir }}/ca.key"
+          privatekey_passphrase: "{{ ca_secret_passphrase }}"
+          provider: selfsigned
+
+      - name: Block to generate certificates to all hosts
+        include_tasks: 00-ca_create_signed_certs.yaml
+        when: hostvars[item].ansible_host is defined
+        with_items: "{{ groups.all }}"
+        
+      - name: Fetch the ca.pem file from the CA host
+        run_once: true
+        ansible.builtin.fetch:
+          src: "{{ cert_dir }}/ca.pem" 
+          dest: ./buffer/ca.pem
+          flat: yes
+
+      - name: Upload the ca.pem file to all nodes
+        ansible.builtin.template:
+          src: ./buffer/ca.pem
+          dest: "{{ cert_dir }}/ca.pem"
+          owner: "{{ pg_os_user }}"
+          group: "{{ pg_os_group }}"
+          mode: "0640"
+        delegate_to: "{{ item }}"
+        when: item != inventory_hostname
+        with_items: "{{ groups.all }}"
+
+      become: true

@@ -1,11 +1,11 @@
 patroni_namespace: pg_ha
-patroni_scope: cluster_1
+patroni_scope: "{{ pg_cluster_name }}"
 patroni_rest_api_listen: "0.0.0.0"
 patroni_dcs_ttl: 30
 patroni_dcs_loop_wait: 10
 patroni_dcs_retry_timeout: 10
 patroni_dcs_max_lag_failover: 1048576
-patroni_dcs_slot_name: percona_cluster_1
+patroni_dcs_slot_name: percona_{{ pg_cluster_name }}
 patroni_dcs_slot_type: physical
 
 pg_use_pg_rewind: "true"
@@ -28,14 +28,13 @@ pg_wal_keep_size: 4096
 pg_max_wal_senders: 5
 pg_max_replication_slots: 10
 pg_wal_log_hints: "on"
-pg_archive_mode: ""
+pg_archive_mode: "on"
 pg_archive_library: ""
-pg_archive_command: ""
-pg_archive_timeout: 1800s
+pg_archive_command: 'pgbackrest --stanza={{ pg_cluster_name }} archive-push "{{ pg_data_dir }}/pg_wal/%f"'
+pg_archive_timeout: 1800
 pg_logging_collector: 'on'
 
 pg_pass_file: "{{ config_dir }}/.pgpass"
-pg_cluster_name: cluster_1
 pg_repl_username: replicator
 pg_repl_password: R3pl1c4t0r
 pg_super_username: postgres
@@ -44,4 +43,4 @@ pg_admin_username: admin
 pg_admin_password: Pgadm1n
 
 pg_listen_addr: "0.0.0.0"
-pg_listen_port: 5432
+pg_listen_port: "{{ pg_port }}"

@@ -7,10 +7,10 @@
     - name: Copy the Patroni config file to host {{ inventory_hostname }}
       become: true
       ansible.builtin.template:
-        src: ../templates/patroni.yaml.ts
+        src: ../templates/patroni.yaml.t2
         dest: "{{ config_dir }}/patroni.yaml"
-        owner: root
-        group: root
+        owner: "{{ pg_os_user }}"
+        group: "{{ pg_os_group }}"
         mode: "0644"
 
     - name: Enable and starts the Patroni service on host {{ inventory_hostname }} making sure it's not masked

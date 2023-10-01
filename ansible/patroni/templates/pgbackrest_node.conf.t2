@@ -1,0 +1,23 @@
+# /etc/pgbackrest.conf
+[global]
+repo1-host={{ inventory_hostname }}
+repo1-host-user={{ pg_os_user }}
+repo1-host-type=tls
+repo1-host-cert-file={{ cert_dir }}/{{ item }}.pem
+repo1-host-key-file={{ cert_dir }}/{{ item }}.key
+repo1-host-ca-file={{ cert_dir }}/ca.pem
+
+# general options
+process-max={{ process_max_client }}
+log-level-console={{ log_level_console  }}
+log-level-file={{ log_level_file  }}
+
+# tls server options
+tls-server-address=*
+tls-server-cert-file={{ cert_dir }}/{{ item }}.pem
+tls-server-key-file={{ cert_dir }}/{{ item }}.key
+tls-server-ca-file={{ cert_dir }}/ca.pem
+tls-server-auth={{ inventory_hostname }}={{ pg_cluster_name }}
+
+[{{ pg_cluster_name }}]
+pg1-path={{ pg_data_dir }}

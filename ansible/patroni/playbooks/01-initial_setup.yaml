@@ -1,0 +1,88 @@
+---
+- hosts: all
+
+- hosts: all
+  gather_facts: true
+  tasks:
+    - name: Initial host setup
+      block:
+      - name: Change the hostname to our standard in the server {{ inventory_hostname }}
+        become: true
+        hostname: name="{{ inventory_hostname }}"
+
+      - name: restart machine {{ inventory_hostname }}
+        become: true
+        command: shutdown -r now "Ansible updates triggered"
+        async: 0
+        poll: 0
+        ignore_errors: True
+        when: reboot is defined
+
+      - name: Waiting for {{ inventory_hostname }} to come back up
+        local_action: wait_for host="{{ ansible_host }}" port=22 state=started
+
+      - name: Fix /etc/hosts removing the old hostname
+        tags:
+          - hosts
+        lineinfile: state=present
+          dest=/etc/hosts
+          line="{{ ansible_default_ipv4.address }} {{ inventory_hostname }} {{ ansible_hostname }}"
+          regexp="^{{ ansible_default_ipv4.address }}"
+        # when: ansible_fqdn != inventory_hostname
+        become: true
+
+      - name: Add IP address of all hosts to {{ inventory_hostname }}
+        become: true
+        lineinfile:
+          dest: /etc/hosts
+          regexp: ".*{{ item }}$"
+          line: "{{ hostvars[item]['ansible_default_ipv4']['address'] }} {{item}}"
+          state: present
+        with_items: "{{ groups.all }}"
+
+      - name: Pause for 10 seconds to allow the nodes to fully come up before we validate the hostnames
+        pause:
+          seconds: 10
+
+      - name: Validate ansible_hostname == inventory_hostname in the server {{ inventory_hostname }}
+        tags:
+          - validate
+        assert:
+          that: ansible_hostname == inventory_hostname
+      
+      - name: Ensure group "{{ pg_os_group }}" exists with correct gid in the server {{ inventory_hostname }}
+        become: true
+        ansible.builtin.group:
+          name: "{{ pg_os_group }}"
+          state: present
+
+      - name: Add the user "{{ pg_os_user }}" to server {{ inventory_hostname }}
+        become: true
+        ansible.builtin.user:
+          name: "{{ pg_os_user }}"
+          comment: PostgreSQL administrator
+          home: "{{ base_dir }}"
+          group: "{{ pg_os_group }}"
+          shell: /bin/bash
+          state: present
+
+      - name: Create CONFIG folder in the server {{ inventory_hostname }}
+        become: true
+        file:
+          path: "{{ config_dir }}"
+          state: directory
+          owner: "{{ pg_os_user }}"
+          group: "{{ pg_os_group }}"
+          mode: 0770
+          recurse: yes
+      
+      - name: Create Certificates folder in the server {{ inventory_hostname }}
+        become: true
+        file:
+          path: "{{ cert_dir }}"
+          state: directory
+          owner: "{{ pg_os_user }}"
+          group: "{{ pg_os_group }}"
+          mode: 0740
+          recurse: yes
+      when: hostvars[groups['ca_server'][0]]['inventory_hostname'] != inventory_hostname

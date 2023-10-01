@@ -1,0 +1,40 @@
+---
+- name: Create private key for new certificate on {{ item }}
+  community.crypto.openssl_privatekey:
+    path: "{{ cert_dir }}/{{ item }}.key"
+    owner: "{{ pg_os_user }}"
+    group: "{{ pg_os_group }}"
+    size: 4096
+    mode: 0600
+    type: RSA
+  delegate_to: "{{ item }}"
+
+- name: Create certificate signing request (CSR) for new certificate on {{ item }}
+  community.crypto.openssl_csr_pipe:
+    privatekey_path: "{{ cert_dir }}/{{ item }}.key"
+    common_name: "{{ item }}"
+    subject_alt_name:
+      - "DNS:{{ item }}"
+  delegate_to: "{{ item }}"
+  register: csr
+
+- name: Sign certificate with our CA
+  community.crypto.x509_certificate_pipe:
+    csr_content: "{{ csr.csr }}"
+    provider: ownca
+    ownca_path: "{{ cert_dir }}/ca.pem"
+    ownca_privatekey_path: "{{ cert_dir }}/ca.key"
+    ownca_privatekey_passphrase: "{{ ca_secret_passphrase }}"
+    ownca_not_after: +365d  # valid for one year
+    ownca_not_before: "-1d"  # valid since yesterday
+  # delegate_to: "{{ groups['ca_server'][0] }}"
+  # run_once: true
+  register: certificate
+
+- name: Write certificate file on {{ item }}
+  copy:
+    dest: "{{ cert_dir }}/{{ item }}.pem"
+    content: "{{ certificate.certificate }}"
+    owner: "{{ pg_os_user }}"
+    group: "{{ pg_os_group }}"
+  delegate_to: "{{ item }}"

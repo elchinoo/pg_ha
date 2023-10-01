@@ -1,0 +1,58 @@
+# /etc/pgbackrest.conf
+
+[global]
+
+# Server repo details
+repo1-path={{ repo1_path  }}
+
+### Retention ###
+#  - repo1-retention-archive-type
+#  - If set to full pgBackRest will keep archive logs for the number of full backups defined by repo-retention-archive
+repo1-retention-archive-type={{  repo1_retention_archive_type }}
+
+# repo1-retention-archive
+#  - Number of backups worth of continuous WAL to retain
+#  - NOTE: WAL segments required to make a backup consistent are always retained until the backup is expired regardless of how this option is configured
+#  - If this value is not set and repo-retention-full-type is count (default), then the archive to expire will default to the repo-retention-full
+# repo1-retention-archive={{ repo1_retention_archive  }}
+
+# repo1-retention-full
+#  - Full backup retention count/time.
+#  - When a full backup expires, all differential and incremental backups associated with the full backup will also expire. 
+#  - When the option is not defined a warning will be issued. 
+#  - If indefinite retention is desired then set the option to the max value. 
+repo1-retention-full={{ repo1_retention_full  }}
+
+# Server general options
+process-max={{ process_max_server  }}
+log-level-console={{ log_level_console  }}
+log-level-file={{ log_level_file  }}
+start-fast={{ start_fast  }}
+delta={{  delta }}
+backup-standby={{ backup_standby  }}
+
+########## Server TLS options ##########
+tls-server-address={{  tls_server_address }}
+tls-server-cert-file={{ cert_dir }}/{{ inventory_hostname }}.pem
+tls-server-key-file={{ cert_dir }}/{{ inventory_hostname }}.key
+tls-server-ca-file={{ cert_dir }}/ca.pem
+
+### Auth entry ###
+{% for node in groups['db_server'] %}
+tls-server-auth={{ hostvars[node]['inventory_hostname'] }}={{ pg_cluster_name }}
+{% endfor %}
+
+### Clusters and nodes ###
+[{{ pg_cluster_name }}]
+{% for node in groups['db_server'] %}
+pg{{ loop.index }}-host={{ hostvars[node]['inventory_hostname'] }}
+pg{{ loop.index }}-host-port={{ backrest_port }}
+pg{{ loop.index }}-port={{ pg_port }}
+pg{{ loop.index }}-path={{ pg_data_dir }}
+pg{{ loop.index }}-host-type=tls
+pg{{ loop.index }}-host-cert-file={{ cert_dir}}/{{ inventory_hostname }}.pem
+pg{{ loop.index }}-host-key-file={{ cert_dir}}/{{ inventory_hostname }}.key
+pg{{ loop.index }}-host-ca-file={{ cert_dir}}/ca.pem
+pg{{ loop.index }}-socket-path={{ pg_socket_path }}
+
+{% endfor %}

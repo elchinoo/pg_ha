@@ -1,14 +1,20 @@
+##### Basic configuration
+company_name: "Percona LLC"
+
 ##### Host configuration
 # They are here just to simplify the config process as they are in the same place
-host_db_node1: 10.0.10.100
-host_db_node2: 10.0.10.101
-host_db_node3: 10.0.10.102
+host_db_node1: 18.215.237.121
+host_db_node2: 54.145.235.116
+host_db_node3: 34.230.12.208
 
 host_etcd_node1: '{{ host_db_node1 }}'
 host_etcd_node2: '{{ host_db_node2 }}'
 host_etcd_node3: '{{ host_db_node3 }}'
 
-host_bkp_node: 34.204.99.59
+host_bkp_node: 52.55.48.187
+
+# We are using the same pgbackrest host to be our CA Authority server 
+host_ca_node: "{{ host_bkp_node }}"
 
 # For now we'll use the same user for all nodes
 # TODO
@@ -18,6 +24,8 @@ ssh_username: ubuntu
 pg_version: 15
 pg_os_user: postgres
 pg_os_group: postgres
+pg_os_gid: 114
+pg_os_uid: 116
 
 ##### Setup folders
 # We will use the following tree to store our setup:
@@ -36,7 +44,11 @@ pg_os_group: postgres
 #
 base_dir: /pg_ha
 config_dir: "{{ base_dir }}/config"
+cert_dir: "{{ base_dir }}/certs"
 base_data_dir: "{{ base_dir }}/data"
 etcd_data_dir: "{{ base_data_dir }}/etcd"
 pg_data_dir: "{{ base_data_dir }}/postgres/{{ pg_version }}"
 pg_bin_dir: /usr/lib/postgresql/15/bin
+pg_port: 5432
+pg_socket_path: /var/run/postgresql
+pg_cluster_name: cluster_1

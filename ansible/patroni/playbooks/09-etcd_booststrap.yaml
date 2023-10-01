@@ -7,10 +7,10 @@
     - name: Copy the ETCD config file to host {{ inventory_hostname }}
       become: true
       ansible.builtin.template:
-        src: ../templates/etcd_bootstrap.conf.ts
+        src: ../templates/etcd_bootstrap.conf.t2
         dest: "{{ config_dir }}/etcd"
-        owner: root
-        group: root
+        owner: "{{ pg_os_user }}"
+        group: "{{ pg_os_group }}"
         mode: "0644"
 
     - name: Enable and starts the ETCD service on host {{ inventory_hostname }} making sure it's not masked

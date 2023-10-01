@@ -9,10 +9,10 @@
       block: 
       - name: Copy the Patroni config file to host {{ inventory_hostname }}
         ansible.builtin.template:
-          src: ../templates/patroni.yaml.ts
+          src: ../templates/patroni.yaml.t2
           dest: "{{ config_dir }}/patroni.yaml"
-          owner: root
-          group: root
+          owner: "{{ pg_os_user }}"
+          group: "{{ pg_os_group }}"
           mode: "0644"
 
       - name: Make sure the Postgres data dir has the proper ownership, group and permissions

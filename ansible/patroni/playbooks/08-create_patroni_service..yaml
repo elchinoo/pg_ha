@@ -7,7 +7,7 @@
     - name: Make a copy of the Patroni service file
       become: true
       ansible.builtin.template:
-        src: ../templates/patroni.service.ts
+        src: ../templates/patroni.service.t2
         dest: /etc/systemd/system/patroni.service
         owner: root
         group: root

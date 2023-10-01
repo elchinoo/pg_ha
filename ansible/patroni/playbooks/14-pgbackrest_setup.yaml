@@ -1,0 +1,64 @@
+---
+- hosts: all
+
+- hosts: bkp_server
+  gather_facts: false
+  serial: 1
+  tasks:
+    - name: Setup backup servers
+      block:
+      - name: Install pgbackrest Server
+        ansible.builtin.package:
+          name: percona-pgbackrest
+          state: latest
+
+      - name: Copy the pgbackrest config file to host {{ inventory_hostname }}
+        ansible.builtin.template:
+          src: ../templates/pgbackrest.conf.t2
+          dest: "{{ config_dir }}/pgbackrest.conf"
+          owner: "{{ pg_os_user }}"
+          group: "{{ pg_os_group }}"
+          mode: "0644"
+
+      - name: Make a copy of the pgbackrest service file
+        ansible.builtin.template:
+          src: ../templates/pgbackrest.service.t2
+          dest: /etc/systemd/system/pgbackrest.service
+          owner: root
+          group: root
+          mode: "0644"
+
+      - name: Copy the pgbackrest config file to database nodes
+        ansible.builtin.template:
+          src: ../templates/pgbackrest_node.conf.t2
+          dest: "{{ config_dir }}/pgbackrest.conf"
+          owner: "{{ pg_os_user }}"
+          group: "{{ pg_os_group }}"
+          mode: "0644"
+        delegate_to: "{{ item }}"
+        with_items: "{{ groups.db_server }}"
+
+      - name: Make a copy of the pgbackrest service file to database nodes
+        ansible.builtin.template:
+          src: ../templates/pgbackrest.service.t2
+          dest: /etc/systemd/system/pgbackrest.service
+          owner: root
+          group: root
+          mode: "0644"
+        delegate_to: "{{ item }}"
+        with_items: "{{ groups.db_server }}"
+
+      become: true
+
+- hosts: bkp_server
+    db_server
+  gather_facts: false
+  serial: 1
+  tasks:
+    - name: Enable and starts the pgbackrest service on host {{ inventory_hostname }} making sure it's not masked
+      become: true
+      ansible.builtin.systemd:
+        name: pgbackrest
+        state: started
+        enabled: true
+        masked: no

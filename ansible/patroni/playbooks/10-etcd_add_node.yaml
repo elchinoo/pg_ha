@@ -7,9 +7,9 @@
   tasks:
     - name: Register, configure, and start ETCD nodes
       block: 
-      # - name: Pause for 10 seconds to allow etcd cluster to fully come up before we add a new member
-      #   pause:
-      #     seconds: 10
+      - name: Pause for 10 seconds to allow etcd cluster to fully come up before we add a new member
+        pause:
+          seconds: 10
 
       - name: Check etcd cluster health before we add a new member
         command: "sudo etcdctl cluster-health"
@@ -22,10 +22,10 @@
 
       - name: Copy the ETCD config file to host {{ inventory_hostname }}
         ansible.builtin.template:
-          src: ../templates/etcd_member.conf.ts
+          src: ../templates/etcd_member.conf.t2
           dest: "{{ config_dir }}/etcd"
-          owner: root
-          group: root
+          owner: "{{ pg_os_user }}"
+          group: "{{ pg_os_group }}"
           mode: "0644"
 
       - name: Enable and starts the ETCD service on host {{ inventory_hostname }} making sure it's not masked
