@@ -23,6 +23,11 @@
       # For whatever reason archive fails if the config file isn't in the /etc folder
       #   even though we have our service properly configured.
       #   Let's then make the symlink to fix this 
+      - name: Remove file /etc/pgbackrest.conf
+        ansible.builtin.file:
+          path: /etc/pgbackrest.conf
+          state: absent
+
       - name: Make a symbolik link to /etc/pgbackrest.conf file
         ansible.builtin.file:
           src: "{{ config_dir }}/pgbackrest.conf"
