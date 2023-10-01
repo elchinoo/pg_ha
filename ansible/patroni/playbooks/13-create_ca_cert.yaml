@@ -40,7 +40,7 @@
           privatekey_passphrase: "{{ ca_secret_passphrase }}"
           provider: selfsigned
 
-      - name: Block to generate certificates to all hosts
+      - name: Block to generate certificates to all nodes
         include_tasks: 00-ca_create_signed_certs.yaml
         when: hostvars[item].ansible_host is defined
         with_items: "{{ groups.all }}"

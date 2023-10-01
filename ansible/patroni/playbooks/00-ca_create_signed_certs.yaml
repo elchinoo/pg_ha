@@ -18,7 +18,7 @@
   delegate_to: "{{ item }}"
   register: csr
 
-- name: Sign certificate with our CA
+- name: Sign certificate with our CA private key
   community.crypto.x509_certificate_pipe:
     csr_content: "{{ csr.csr }}"
     provider: ownca
@@ -31,7 +31,7 @@
   # run_once: true
   register: certificate
 
-- name: Write certificate file on {{ item }}
+- name: Write certificate file on node {{ item }}
   copy:
     dest: "{{ cert_dir }}/{{ item }}.pem"
     content: "{{ certificate.certificate }}"

@@ -3,15 +3,19 @@ company_name: "Percona LLC"
 
 ##### Host configuration
 # They are here just to simplify the config process as they are in the same place
-host_db_node1: 18.215.237.121
-host_db_node2: 54.145.235.116
-host_db_node3: 34.230.12.208
+host_db_node1: 52.90.209.34
+host_db_node2: 3.81.15.231
+host_db_node3: 34.226.214.116
+host_bkp_node: 100.24.30.18
+
+# ssh-keyscan -H 52.90.209.34 >> ~/.ssh/known_hosts
+# ssh-keyscan -H 3.81.15.231 >> ~/.ssh/known_hosts
+# ssh-keyscan -H 34.226.214.116 >> ~/.ssh/known_hosts
+# ssh-keyscan -H 100.24.30.18 >> ~/.ssh/known_hosts
 
 host_etcd_node1: '{{ host_db_node1 }}'
 host_etcd_node2: '{{ host_db_node2 }}'
 host_etcd_node3: '{{ host_db_node3 }}'
-
-host_bkp_node: 52.55.48.187
 
 # We are using the same pgbackrest host to be our CA Authority server 
 host_ca_node: "{{ host_bkp_node }}"

@@ -23,7 +23,7 @@ bootstrap:
             use_slots: {{ pg_use_slots }}
             recovery_conf:
                 recovery_target_timeline: latest
-                restore_command: pgbackrest --config={{ config_dir }}/pgbackrest.conf --stanza={{ pg_cluster_name }} archive-get %f "%p"
+                restore_command: {{ pg_restore_command }}
             parameters:
                 max_connections: {{ pg_max_connections }}
 

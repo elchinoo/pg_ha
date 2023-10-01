@@ -30,7 +30,8 @@ pg_max_replication_slots: 10
 pg_wal_log_hints: "on"
 pg_archive_mode: "on"
 pg_archive_library: ""
-pg_archive_command: 'pgbackrest --stanza={{ pg_cluster_name }} archive-push "{{ pg_data_dir }}/pg_wal/%f"'
+pg_archive_command: 'pgbackrest --config={{ config_dir }}/pgbackrest.conf --stanza={{ pg_cluster_name }} archive-push "{{ pg_data_dir }}/pg_wal/%f"'
+pg_restore_command: 'pgbackrest --config={{ config_dir }}/pgbackrest.conf --stanza={{ pg_cluster_name }} archive-get %f "%p"'
 pg_archive_timeout: 1800
 pg_logging_collector: 'on'
 

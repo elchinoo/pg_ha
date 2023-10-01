@@ -20,6 +20,17 @@
           group: "{{ pg_os_group }}"
           mode: "0644"
 
+      # For whatever reason archive fails if the config file isn't in the /etc folder
+      #   even though we have our service properly configured.
+      #   Let's then make the symlink to fix this 
+      - name: Make a symbolik link to /etc/pgbackrest.conf file
+        ansible.builtin.file:
+          src: "{{ config_dir }}/pgbackrest.conf"
+          dest: /etc/pgbackrest.conf
+          owner: root
+          group: root
+          state: link
+
       - name: Make a copy of the pgbackrest service file
         ansible.builtin.template:
           src: ../templates/pgbackrest.service.t2
@@ -62,3 +73,13 @@
         state: started
         enabled: true
         masked: no
+
+- hosts: bkp_server
+  gather_facts: false
+  serial: 1
+  tasks:
+    - name: Create the stanza {{ pg_cluster_name }}
+      ansible.builtin.command: sudo -iu postgres pgbackrest --config-path={{ config_dir }} --stanza={{ pg_cluster_name }} stanza-create
+
+    - name: Create the backup for stanza {{ pg_cluster_name }}
+      ansible.builtin.command: sudo -iu postgres pgbackrest --config-path={{ config_dir }} --stanza={{ pg_cluster_name }} --type=full backup
