@@ -2,6 +2,12 @@
 
 This recipe creates a PostgreSQL cluster using Patroni and ETCD of "N" nodes. Please read the configuration instructions to see how you can set up your cluster.
 
+## Architecture
+
+This tool intends to create the below architecure installing and configuring all components:
+
+![PostgreSQL minimalist HA Architecture with Patroni](../..//images/Postgresql-Minimalist_HA.jpg "PostgreSQL minimalist HA Architecture with Patroni").
+
 ## Before running (Configurations)
 
 Before using this recipe you need to change the configuration in both the `inventory` and `playbooks/group_vars` folders.
@@ -21,13 +27,15 @@ Before using this recipe you need to change the configuration in both the `inven
 
 ## How to run
 
-You can run using the script `instal.sh` which will run all the playbooks in the correct order or can run an individual playbook, for example: 
+You can run using the script `pgha_install -i` which will run all the playbooks in the correct order or can run an individual playbook, for example: 
 
 ``` bash
-ansible-playbook ./playbooks/12-etcd_add_node.yaml
+pgha_install -i -p 4
 ```
 
-which will check all the ETCD nodes and add the ones not in the cluster yet to the cluster.  
+which will install PostgreSQL server and all the HA components like Patroni, ETCD and pgbackrest in the database nodes.
+
+You can run `pgha_install -h` for a complete help.
 
 ## Contributions
 
