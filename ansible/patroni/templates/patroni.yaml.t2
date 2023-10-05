@@ -98,7 +98,13 @@ postgresql:
         unix_socket_directories: "{{ pg_socket_path }}"
 
     create_replica_methods:
+        - pgbackrest
         - basebackup
+
+    pgbackrest:
+        command: {{ pg_backrest_restore_bkp }}
+        keep_data: {{ pg_backrest_keep_data }}
+        no_params: {{ pg_backrest_no_params }}
 
     basebackup:
         checkpoint: 'fast'

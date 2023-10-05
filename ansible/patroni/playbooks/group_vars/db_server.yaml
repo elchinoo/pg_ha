@@ -1,6 +1,6 @@
 patroni_namespace: pg_ha
 patroni_scope: "{{ pg_cluster_name }}"
-patroni_rest_api_listen: "0.0.0.0"
+patroni_rest_api_listen: 0.0.0.0
 patroni_dcs_ttl: 30
 patroni_dcs_loop_wait: 10
 patroni_dcs_retry_timeout: 10
@@ -35,6 +35,10 @@ pg_restore_command: 'pgbackrest --config={{ config_dir }}/pgbackrest.conf --stan
 pg_archive_timeout: 1800
 pg_logging_collector: 'on'
 
+pg_backrest_restore_bkp: "/usr/bin/pgbackrest --stanza={{ pg_cluster_name }} --delta restore"
+pg_backrest_keep_data: "true"
+pg_backrest_no_params: "true"
+
 pg_pass_file: "{{ config_dir }}/.pgpass"
 pg_repl_username: replicator
 pg_repl_password: R3pl1c4t0r
@@ -43,5 +47,5 @@ pg_super_password: PostP4ss
 pg_admin_username: admin
 pg_admin_password: Pgadm1n
 
-pg_listen_addr: "0.0.0.0"
+pg_listen_addr: 0.0.0.0
 pg_listen_port: "{{ pg_port }}"
