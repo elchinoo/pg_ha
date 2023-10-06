@@ -8,6 +8,10 @@ One of the first problems is to choose between the many options in the market, b
 
 We'll start with Patroni, an open-source tool that automates PostgreSQL HA *using a distributed configuration store like ZooKeeper, etcd, Consul or Kubernetes*. It provides automated failover and recovery, and supports multiple nodes and clusters. We'll add pgBackRest to our setup, a tool that *aims to be a reliable, easy-to-use backup and restore solution that can seamlessly scale up to the largest databases and workloads by utilizing algorithms that are optimized for database-specific requirements*.
 
- - [Patroni: A Template for PostgreSQL HA with ZooKeeper, etcd or Consul](patroni)
+This repository will provide you with a tutorial and an automation deploy using Terraform and Ansible to create and install the environment.
+
+ - **Patroni: A Template for PostgreSQL HA with ZooKeeper, etcd or Consul**
+   - [Tutorial](patroni/tutorial/README.md)
+   - [Automation](patroni/automation/README.md)
 
 I hope you enjoy the ride and learn something on the way!
