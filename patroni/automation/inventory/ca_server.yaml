@@ -1,5 +1,0 @@
-ca_server:
-  hosts:
-    node-ca:
-      ansible_host: "{{ host_ca_node }}"
-      ansible_user: "{{ ssh_username }}"
