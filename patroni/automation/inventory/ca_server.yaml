@@ -3,3 +3,4 @@ ca_server:
     node-ca:
       ansible_host: "{{ host_ca_node }}"
       ansible_user: "{{ ssh_username }}"
+#
