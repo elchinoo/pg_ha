@@ -9,12 +9,12 @@ This tutorial will be divided into below steps:
  - [x] [Configure ETCD](02-etcd.md)
  - [x] [Configure Patroni and PostgreSQL](03-patroni.md)
  - [x] [Configure HAProxy](04-haproxy.md)
- - [ ] [Configure pgBackRest](05-pgbackrest.md)
+ - [x] [Configure pgBackRest](05-pgbackrest.md)
  - Configure connection pooler
     - [ ] [pgbouncer](06-pgbouncer.md)
     - [ ] [pgpool](07-pgpool.md)
     - [ ] [pgagroal](08-pgagroal.md)
- - [ ] [Creating a Standby Cluster](08-standby.md)
+ - [ ] [Creating a Standby Cluster](09-standby.md)
 
 
 

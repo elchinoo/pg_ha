@@ -1,3 +1,5 @@
-tmp/
 all.yaml
 buffer
+patroni/automation/.terraform/
+patroni/automation/tmp/
+*.hcl
