@@ -220,7 +220,7 @@ resource "aws_volume_attachment" "pg_ha_node-att" {
 ############################### Inventory and Host servers
 resource "local_file" "ansible_inventory" {
   content = templatefile(
-    "./templates/inventory_db_server.tpl",
+    "./templates/ansible_inventory.tpl",
     {
       # Secondary
       pg_db_pub_ip   = aws_instance.pg_ha_node.*.public_ip,

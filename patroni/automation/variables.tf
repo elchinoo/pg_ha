@@ -30,7 +30,7 @@ locals {
   pg_instance_type = "t2.small"
   pg_vol_type      = "gp2"
   pg_vol_size      = 64
-  pg_vol_device    = "/dev/sdb"
+  pg_vol_device    = "/dev/sdf"
 
   host_type_db = "PostgreSQL"
   pg_base_name = "PGHA-db"
@@ -41,7 +41,7 @@ locals {
   dcs_instance_type = "t2.small"
   dcs_vol_type      = "gp2"
   dcs_vol_size      = 32
-  dcs_vol_device    = "/dev/sdb"
+  dcs_vol_device    = "/dev/sdf"    # https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/device_naming.html#available-ec2-device-names
   dcs_num_nodes     = 3
 
   dcs_node_name = "pg-dcs"

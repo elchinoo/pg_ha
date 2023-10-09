@@ -1,23 +1,29 @@
 db_server:
   hosts:
     node-1:
-      ansible_host: 34.209.217.171
+      ansible_host: 18.237.123.60
       ansible_user: ubuntu
     node-2:
-      ansible_host: 34.221.198.231
+      ansible_host: 54.202.44.91
       ansible_user: ubuntu
     node-3:
-      ansible_host: 35.163.121.202
+      ansible_host: 18.237.55.32
       ansible_user: ubuntu
 
 etcd_server:
   hosts:
     node-1:
-      ansible_host: 34.209.217.171
+      ansible_host: 18.237.123.60
       ansible_user: ubuntu
     node-2:
-      ansible_host: 34.221.198.231
+      ansible_host: 54.202.44.91
       ansible_user: ubuntu
     node-3:
-      ansible_host: 35.163.121.202
+      ansible_host: 18.237.55.32
+      ansible_user: ubuntu
+
+ca_server:
+  hosts:
+    node-1:
+      ansible_host: 18.237.123.60
       ansible_user: ubuntu
