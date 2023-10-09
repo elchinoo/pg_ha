@@ -1,0 +1,58 @@
+##### Basic configuration
+company_name: "Percona LLC"
+
+##### Host configuration
+# They are here just to simplify the config process as they are in the same place
+host_db_node1: 52.90.209.34
+host_db_node2: 3.81.15.231
+host_db_node3: 34.226.214.116
+host_bkp_node: 100.24.30.18
+
+# ssh-keyscan -H 52.90.209.34 >> ~/.ssh/known_hosts
+# ssh-keyscan -H 3.81.15.231 >> ~/.ssh/known_hosts
+# ssh-keyscan -H 34.226.214.116 >> ~/.ssh/known_hosts
+# ssh-keyscan -H 100.24.30.18 >> ~/.ssh/known_hosts
+
+host_etcd_node1: '{{ host_db_node1 }}'
+host_etcd_node2: '{{ host_db_node2 }}'
+host_etcd_node3: '{{ host_db_node3 }}'
+
+# We are using the same pgbackrest host to be our CA Authority server 
+host_ca_node: "{{ host_bkp_node }}"
+
+# For now we'll use the same user for all nodes
+# TODO
+ssh_username: ubuntu
+
+######
+pg_version: 15
+pg_os_user: postgres
+pg_os_group: postgres
+pg_os_gid: 114
+pg_os_uid: 116
+
+##### Setup folders
+# We will use the following tree to store our setup:
+#   /pg_ha
+#       |- config
+#           |- etcd.conf
+#           |- patroni.yaml
+#           |- haproxy.conf
+#           |- pgpass
+#           |- pgbackrest.conf
+#           |- <...>
+#       |- data
+#           |- etcd
+#           |- postgres
+#               |- 15
+#
+base_dir: /pg_ha
+config_dir: "{{ base_dir }}/config"
+cert_dir: "{{ base_dir }}/certs"
+base_data_dir: "{{ base_dir }}/data"
+etcd_data_dir: "{{ base_data_dir }}/etcd"
+pg_data_dir: "{{ base_data_dir }}/postgres/{{ pg_version }}"
+pg_bin_dir: /usr/lib/postgresql/15/bin
+pg_port: 5432
+pg_socket_path: /var/run/postgresql
+pg_cluster_name: cluster_1
