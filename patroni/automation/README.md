@@ -4,7 +4,7 @@ This recipe creates a PostgreSQL cluster using Patroni and ETCD of "N" nodes. Pl
 
 ## Architecture
 
-This tool intends to create the below architecure installing and configuring all components:
+This tool intends to create the below architecture installing and configuring all components:
 
 ![PostgreSQL minimalist HA Architecture with Patroni](../..//images/Postgresql-Minimalist_HA.jpg "PostgreSQL minimalist HA Architecture with Patroni").
 
