@@ -56,6 +56,6 @@ locals {
   percona_user      = "charly.batista@percona.com"
   ssh_user          = "ubuntu"
   ssh_key_name      = "PGHA_W2_SSH_Key_AUTO"
-  ssh_pub_key_value = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIPftS5GQY8++kJZNMCK5Uzjz/2KDZOqAruLx5xS/wrCz"
-  ssh_priv_key_path = "~/keys/aws/PGHA_W2_SSH_Key"
+  ssh_pub_key_value = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAINAY1h4DXe9W+L/bkK+O0FC/Hy7thkJKfX9YCTIGoXfp PGHA_W2_SSH_Key_AUTO"
+  ssh_priv_key_path = "~/keys/aws/PGHA_W2_SSH_Key_AUTO"
 }
