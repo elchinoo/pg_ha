@@ -2,4 +2,6 @@ all.yaml
 buffer
 patroni/automation/.terraform/
 patroni/automation/tmp/
+*.tfstate
+*.tfstate.*
 *.hcl
