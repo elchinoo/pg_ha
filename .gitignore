@@ -6,3 +6,4 @@ inventory.yaml
 *.tfstate
 *.tfstate.*
 *.hcl
+tmp

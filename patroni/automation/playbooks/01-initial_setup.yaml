@@ -5,20 +5,21 @@
   gather_facts: true
   tasks:
     - name: Initial host setup
+      become: true
       block:
       - name: Change the hostname to our standard in the server {{ inventory_hostname }}
-        become: true
         hostname: name="{{ inventory_hostname }}"
+        when: hostvars[inventory_hostname].update_name is true
 
       - name: restart machine {{ inventory_hostname }}
-        become: true
         command: shutdown -r now "Ansible updates triggered"
         async: 0
         poll: 0
-        ignore_errors: True
+        ignore_errors: true
         when: reboot is defined
 
       - name: Waiting for {{ inventory_hostname }} to come back up
+        become: false
         local_action: wait_for host="{{ ansible_host }}" port=22 state=started
 
       - name: Fix /etc/hosts removing the old hostname
@@ -29,10 +30,8 @@
           line="{{ ansible_default_ipv4.address }} {{ inventory_hostname }} {{ ansible_hostname }}"
           regexp="^{{ ansible_default_ipv4.address }}"
         # when: ansible_fqdn != inventory_hostname
-        become: true
 
       - name: Add IP address of all hosts to {{ inventory_hostname }}
-        become: true
         lineinfile:
           dest: /etc/hosts
           regexp: ".*{{ item }}$"
@@ -49,15 +48,14 @@
           - validate
         assert:
           that: ansible_hostname == inventory_hostname
+        when: hostvars[inventory_hostname].update_name is true
       
-      - name: Ensure group "{{ pg_os_group }}" exists with correct gid in the server {{ inventory_hostname }}
-        become: true
+      - name: Ensure group "{{ pg_os_group }}" exists in the server {{ inventory_hostname }}
         ansible.builtin.group:
           name: "{{ pg_os_group }}"
           state: present
 
       - name: Add the user "{{ pg_os_user }}" to server {{ inventory_hostname }}
-        become: true
         ansible.builtin.user:
           name: "{{ pg_os_user }}"
           comment: PostgreSQL administrator
@@ -67,7 +65,6 @@
           state: present
 
       - name: Create CONFIG folder in the server {{ inventory_hostname }}
-        become: true
         file:
           path: "{{ config_dir }}"
           state: directory
@@ -77,7 +74,6 @@
           recurse: yes
       
       - name: Create Certificates folder in the server {{ inventory_hostname }}
-        become: true
         file:
           path: "{{ cert_dir }}"
           state: directory
